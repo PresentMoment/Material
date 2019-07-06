@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.0/mapbox-gl.js'></script>
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+
+    <title>Material</title>
+</head>
+
+<body>
+<div class="nav">
+  
+    <img src='/images/SPLogo.png' id="logo">
+    <div id="nav-spacer"></div>
+
+    <div class="search-bar">
+    <form action="/search" method="GET">
+    <input type="text" autocomplete="off" aria-autocomplete="list" aria-controls="react-autowhatever-1" placeholder="Search" name="term" value="">
+    </div>
+    </form>
+
+    <div class="nav-text">
+    <span class="title">
+    <a href="/"><h3>MATERIAL</h3></a>
+    </span>
+    <a href="/auth/signup"><div id="sign-up">Sign Up</a></div>
+    <a href="/auth/login"><div id="log-in">Log In</a></div>
+    </div>
+</div>
+<div class="index-container">
+  <div class="index-spacer"></div>
+  <div class ="content-box">
+  </div>    
+</div>
+
+{{{body}}}
+</body>
+
+</html>

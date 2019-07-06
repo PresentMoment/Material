@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<body>
+<div class="inup-container">
+<div id="inup-header">
+<h2>Login</h2>
+</div>
+<div class="inup-content">
+<form action="/auth/login" method="POST" id="form-container">
+  <label for="username">Username:    </label>
+  <input id="username" type="text" name="username" placeholder="JonSnow">
+
+  <br><br>
+
+  <label for="password">Password:    </label>
+  <input id="password" type="password" name="password" placeholder="Your password">
+  <br>
+  {{#if message }}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+
+  <br><br>
+  <div class="button-container-in">
+  <button>Login</button>
+  </div>
+  <br><br>
+  <p class="account-message">
+    Don't have an account yet?
+    <a href="/auth/signup">Signup</a>
+  </p>
+</form>
+</div>
+</div>
+{{{ body }}}
+</body>
+</html>
