@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
 
-const artWorkSchema = new Schema({
+const artWorkSchema = new Schema(
+  {
   artist: {
     type: String,
     required: true
@@ -15,11 +16,34 @@ const artWorkSchema = new Schema({
     required: true
   },
   location: {
-    type: [Number],
-    required: true
+    type: {
+      type: String,
+      enum: ["Point"],
+      default: "Point"
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
   },
-  needsRepair: Boolean
-});
+  needsRepair: {
+    type: Boolean,
+    default: false,
+    required: false
+  },
+  imgName: String,
+  imgPath: String,
+  postedBy: {
+    type: mongoose.Schema.Types.ObjectId, ref: 'User',
+    required: true
+  }
+  },
+  {
+    timestamps: {
+      createdAt: "created_at",
+      updatedAt: "updated_at"
+    }
+  });
 
 const ArtWork = mongoose.model("Art Work", artWorkSchema);
 

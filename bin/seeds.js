@@ -13,7 +13,7 @@ mongoose.connect("mongodb://localhost/sculpture-project", {useNewUrlParser: true
     console.error('Error connecting to mongo', err);
 });
 
-const artworks = [
+const artwork = [
   {
     artist: "",
     title: "",
@@ -26,13 +26,6 @@ const artworks = [
     },
     needsRepair: null
   },
-  {
-    artist: "",
-    title: "",
-    year: [],
-    location: [],
-    needsRepair: null
-  }
 ];
 
 let users = [

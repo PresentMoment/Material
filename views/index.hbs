@@ -1,41 +1,4 @@
-<!DOCTYPE html>
-<html lang="eng">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.0/mapbox-gl.js'></script>
-    <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC&display=swap" rel="stylesheet">    
-    <link href="https://fonts.googleapis.com/css?family=Crimson+Text&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="stylesheets/style.css">
 
-
-    <title>Material</title>
-</head>
-<body>
-{{!-- <div class="nav">
-  
-    <img src='/images/SPLogo.png' id="logo">
-    <div id="nav-spacer"></div>
-
-    <div class="search-bar">
-    <form action="/search" method="GET">
-    <input type="text" autocomplete="off" aria-autocomplete="list" aria-controls="react-autowhatever-1" placeholder="Search" name="term" value="">
-    </div>
-    </form>
-
-    <div class="nav-text">
-    <span class="title">
-    <h3>MATERIAL</h3>
-    </span>
-    <a href="/auth/signup"><div id="sign-up">Sign Up</a></div>
-    <a href="/auth/login"><div id="log-in">Log In</a></div>
-    </div>
-</div> --}}
 <div class="index-container">
   <span id="tagline">
   <h5>Find Public Art Near You</h5>
@@ -43,95 +6,66 @@
   <div class="index-spacer"></div>
   <div class ="content-box">
   <div id='map'>
+  </div>
+
+    <div class="listings-container">
+    <div class="listings">
+    {{#each arts}}
+    <div class="artist-div">
+    <div class="art-info">
+    <a href="/artists/{{_id}}"><h5>Artist: {{this.artist}}</a>
+    <br>Title: {{this.title}}
+    <br>Year: {{this.year}}
+    <br>Posted By: {{this.postedBy}}
+    </h5>
+    </div>
+    <div class="art-info-img">
+      <img src={{this.imgPath}} />
+    </div>
+    </div>
+    {{/each}}
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+<div class="add-art">
+  <h3><a href="/auth/add/">Add An Artwork</a></h3>
+</div>
+
+
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwbHRtMGVrdWYwIn0.xzwCmqIxkr_AfZ3YNBwy9g';
 var map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11'
+style: 'mapbox://styles/mapbox/outdoors-v9',
 });
+map.setZoom(3);
+map.setCenter([13, 52]);
+var mapNav = new mapboxgl.NavigationControl();
+map.addControl(mapNav, 'bottom-right');
+map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    trackUserLocation: true
+}));
+
+axios.get('http://localhost:3000/api/material').then(response => {
+  console.log(response.data)
+  const artwork = response.data;
+
+  artwork.forEach(artwork => {
+    const coordinates = artwork.location.coordinates.reverse();
+
+    let popup = new mapboxgl.Popup({ offset: 0, className: 'my-class' })
+        .setHTML(`<div class="popup"><img height="50px" src="${artwork.imgPath}" alt=""><p>${artwork.title} by ${artwork.artist}</p></div>`)
+        .setMaxWidth("none")
+
+    let marker = new mapboxgl.Marker().setLngLat(coordinates).setPopup(popup).addTo(map);
+  })
+
+}).catch(err => {
+    console.log(err)
+})
 </script>
-  </div>
-    <div class="listings-list">
-    <div class="listings-container">
-      <div class="art-info-keys">
-    <h5>Artist:
-    <br>
-    Title:
-    <br>
-    Year:</h5>
-    </div>
-    <div class="art-info-vals">
-    <h5>Richard Serra
-    <br>Berlin Junction
-    <br>1987
-    </h5>
-    </div>
-    <div class="art-info-img">
-      <img src='/images/serra.jpg' />
-    </div>
-  </div>
-
-  <div class="listings-container">
-  <div class="art-info-keys">
-  <h5>Artist:
-  <br>
-  Title:
-  <br>
-  Year:</h5>
-  </div>
-  <div class="art-info-vals">
-  <h5>Keith Haring
-  <br>Untitled (Boxers)
-  <br>1987
-  </h5>
-  </div>
-  <div class="art-info-img">
-    <img src='/images/haring.jpg' />
-  </div>
-  </div>
-
-  <div class="listings-container">
-  <div class="art-info-keys">
-  <h5>Artist:
-  <br>
-  Title:
-  <br>
-  Year:</h5>
-  </div>
-  <div class="art-info-vals">
-  <h5>Olafur Eliasson
-  <br>Windspiegelwand
-  <br>2001
-  </h5>
-  </div>
-  <div class="art-info-img">
-    <img src='/images/olafur.jpg' />
-  </div>
-  </div>
-
-    <div class="listings-container">
-  <div class="art-info-keys">
-  <h5>Artist:
-  <br>
-  Title:
-  <br>
-  Year:</h5>
-  </div>
-  <div class="art-info-vals">
-  <h5>Heinrich Brummack
-  <br>Nichtgeburtstag Kanne
-  <br>1987
-  </h5>
-  </div>
-  <div class="art-info-img">
-    <img src='/images/Brummack.jpg' />
-  </div>
-  </div>
-
-  </div>
-
-  </div>
-
-</div>
-</body>
-</html>

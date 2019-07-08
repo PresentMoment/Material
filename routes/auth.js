@@ -7,6 +7,16 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
+router.get("/add", (req, res, next) => {
+  res.render("auth/add", { "message": req.flash("error") });
+});
+
+router.post("/add", passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/auth/add",
+  failureFlash: true,
+  passReqToCallback: true
+}));
 
 router.get("/login", (req, res, next) => {
   res.render("auth/login", { "message": req.flash("error") });

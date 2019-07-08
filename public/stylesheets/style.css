@@ -1,7 +1,6 @@
 * {
   padding: 0;
   margin: 0;
-  background-color: rgb(255, 255, 255);
   text-decoration: none;
   color: inherit;
 }
@@ -82,10 +81,13 @@
 }
 
 #tagline {
-  font-family: 'Playfair Display SC', 'Cormorant Garamond', serif;
-  font-weight: lighter;
-  font-size: 4vw;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  line-height: 1.1;
+  font-size: 1.5rem;
+  padding-top: .2em;
 }
+
 
 .index-spacer {
   height: 1vh;
@@ -100,7 +102,7 @@
   justify-content: center; */
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 768px) {
   .content-box {
     display: flex;
     flex-direction: row-reverse;
@@ -108,12 +110,13 @@
 }
 
 #map {
+  position: relative;
   width: 85vw;
   height: 30vh;
   margin: .45em auto;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 768px) {
   #map {
     width: 50vw;
     height: 70vh;
@@ -121,6 +124,15 @@
     padding-right: 1em;
   }
 }
+
+/* @media (min-width: 768px) {
+  .listings-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+
+  }
+} */
 
 .listings-container {
   display: flex;
@@ -130,40 +142,68 @@
   /* border-bottom: .5px solid rgb(220, 220, 220); */
   font-family: "Raleway";
   font-size: .7em;
+  line-height: 1.3em;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 768px) {
   .listings-container {
     font-size: 1em;
     display: flex;
-    justify-content: flex-start;
-    padding: 1rem 1.2em 2em 0;
+    /* justify-content: flex-start; */
+    padding: 1rem 2% 2em 1%;
   }
 }
 
-.art-info-keys {
-  line-height: 1.3em;
+
+@media (max-width: 988px){
+  .listings-container h5 {
+    font-size: .5em;
+  }
 }
 
-.art-info-vals {
-  line-height: 1.3em;
-  padding-right: 1em;
+.artist-div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em 0 1em 0;
+  border-bottom: 1px solid grey;
 }
 
-.art-info-img {
+.art-info {
+  width: 20vw;
+  padding-left: 1vw;
+}
+
+.listings {
+    width: 96%;
+    line-height: 1.3em;
+}
+
+/* .art-info-img {
+  position: relative;
   margin-left: auto;
-  padding-right: .88em;
-}
+  width: 20vw;
+} */
 
 .art-info-img img {
+
   max-width: 50px;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 768px) {
   .art-info-img img {
+    padding-right: .88em;
     max-width: 100px;
+    padding-left: 8vw;
   }
 }
+
+/* .footer-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20vh;
+} */
 
 .inup-container {
   display: flex;
@@ -243,4 +283,22 @@ button:focus {
 
 button:active {
   transform: scale(0.99);
+}
+
+.add-container {
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 3%;
+}
+
+.popup {
+  width: 90px;
+}
+
+.add-art {
+  font-family: 'Cormorant Garamond', serif;
+  text-align: center;
+  padding: 1em 0 1em 0;
 }

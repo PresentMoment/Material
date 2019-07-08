@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    {{!-- <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> --}}
+    {{!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.0/mapbox-gl.js'></script>
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond&display=swap" rel="stylesheet">
@@ -12,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC&display=swap" rel="stylesheet">    
     <link href="https://fonts.googleapis.com/css?family=Crimson+Text&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="/stylesheets/style.css">
 
 
@@ -20,8 +25,26 @@
 
 <body>
 <div class="nav">
-  
-    <img src='/images/SPLogo.png' id="logo">
+
+  {{!-- <div class="collapse navbar-collapse" id="navbar-list-4"> --}}
+    {{!-- <ul class="navbar-nav"> --}}
+        {{!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         --}}
+        <img src='/images/logo.png' id="logo" >
+        
+        {{!-- </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Log In</a>
+          <a class="dropdown-item" href="#">Sign Up</a>
+          <a class="dropdown-item" href="#">Log Out</a>
+          <a class="dropdown-item" href="#">About</a>
+          <a class="dropdown-item" href="#">Contact</a>
+        </div>
+      </li>    --}}
+    {{!-- </ul> --}}
+
+
     <div id="nav-spacer"></div>
 
     <div class="search-bar">
@@ -34,17 +57,13 @@
     <span class="title">
     <a href="/"><h3>MATERIAL</h3></a>
     </span>
+    
     <a href="/auth/signup"><div id="sign-up">Sign Up</a></div>
     <a href="/auth/login"><div id="log-in">Log In</a></div>
     </div>
 </div>
-<div class="index-container">
   <div class="index-spacer"></div>
-  <div class ="content-box">
-  </div>    
-</div>
 
 {{{body}}}
 </body>
-
 </html>

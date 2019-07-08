@@ -26,7 +26,7 @@ const flash      = require("connect-flash");
     
 
 mongoose
-  .connect('mongodb://localhost/material-generator', {useNewUrlParser: true})
+  .connect('mongodb://localhost/material', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
