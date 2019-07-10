@@ -26,6 +26,10 @@ const artWorkSchema = new Schema(
       required: true
     }
   },
+  address: {
+    type: String,
+    required: true
+  },
   needsRepair: {
     type: Boolean,
     default: false,

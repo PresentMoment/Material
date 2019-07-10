@@ -1,14 +1,3 @@
-// const express = require('express');
-// const hbs = require('hbs');
-// const app = express();
-// app.set('view engine', 'hbs');
-// app.set('views', __dirname + '/views');
-// app.use(express.static(__dirname + '/public'));
-
-// app.get("/", (req, res) => {
-//   res.render("index");
-// });
-
 require('dotenv').config();
 
 const bodyParser   = require('body-parser');
@@ -23,7 +12,7 @@ const path         = require('path');
 const session    = require("express-session");
 const MongoStore = require('connect-mongo')(session);
 const flash      = require("connect-flash");
-    
+// const NodeGeocoder = require('node-geocoder');
 
 mongoose
   .connect('mongodb://localhost/material', {useNewUrlParser: true})
@@ -80,8 +69,18 @@ app.use(session({
 }))
 app.use(flash());
 require('./passport')(app);
-    
 
+//set up GeoCoder
+// var options = {
+//   // Optional depending on the providers\
+//   apiKey: 'pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwbHRtMGVrdWYwIn0.xzwCmqIxkr_AfZ3YNBwy9g', // for Mapquest, OpenCage, Google Premier
+//   formatter: null         // 'gpx', 'string', ...
+// };
+ 
+// var geocoder = NodeGeocoder(options);
+// geocoder.reverse({lat:45.767, lon:4.833}, function(err, res) {
+//   console.log(res);
+// });
 const index = require('./routes/index');
 app.use('/', index);
 

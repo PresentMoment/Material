@@ -1,45 +1,27 @@
 
-<div class="index-container">
-  <span id="tagline">
-  <h5>Find Public Art Near You</h5>
-  </span>
-  <div class="index-spacer"></div>
-  <div class ="content-box">
-  <div id='map'>
-  </div>
-
-    <div class="listings-container">
-    <div class="listings">
-    {{#each arts}}
-    <div class="artist-div">
-    <div class="art-info">
-    <a href="/sculpture/{{_id}}"><h5>Artist: {{this.artist}}
-    <br>Title: {{this.title}}
-    <br>Year: {{this.year}}
-    </h5>
+    <div class="sculpture-div">
+    <div class="sculpture-info">
+    <h5> <a href="/search?term={{arts.artist}}"> Artist: {{arts.artist}}</a>
+    <br>Title: {{arts.title}}
+    <br>Year: {{arts.year}}
+    <br>Posted By: {{arts.postedBy}}
     </div>
-    <div class="art-info-img">
-      <img src={{this.imgPath}} /></a>
+    <div class="sculpture-img">
+      <img src={{arts.imgPath}} />
     </div>
     </div>
-    {{/each}}
-    </div>
-    </div>
-  </div>
-  </div>
-</div>
-<div class="add-art">
-  <h3><a href="/auth/add/">Add An Artwork</a></h3>
-</div>
-
-
+<div style="width: 96vw; padding-left: 1em;" id='map' class="item-map"></div>
 <script>
+
+let arrCoordinates = ({{arts.location.coordinates}});
+let pinDrop = arrCoordinates.reverse();
+
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwbHRtMGVrdWYwIn0.xzwCmqIxkr_AfZ3YNBwy9g';
 var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/presentmoment/cjxwq65aa0nef1cpdnax0omoz',
-zoom: 4,
-center: [8, 50]
+zoom: 6,
+fitBounds: (pinDrop)
 });
 var mapNav = new mapboxgl.NavigationControl();
 map.addControl(mapNav, 'bottom-right')
@@ -50,16 +32,13 @@ map.addControl(mapNav, 'bottom-right')
     trackUserLocation: true
 }))
 
+console.log({{arts.location.coordinates}});
 
 axios.get('http://localhost:3000/api/material').then(response => {
   console.log(response.data)
   const artwork = response.data;
   artwork.forEach(artwork => {
     const coordinates = artwork.location.coordinates;
-    if (isNaN(coordinates[0])) {
-      console.log(artwork, coordinates)
-      return;
-    }
 
     let popup = new mapboxgl.Popup({ offset: 0, className: 'my-class' })
         .setHTML(`<div class="popup"><img height="50px" src="${artwork.imgPath}" alt=""><p>${artwork.title} by ${artwork.artist}</p></div>`)

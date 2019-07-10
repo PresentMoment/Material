@@ -3,6 +3,7 @@
   margin: 0;
   text-decoration: none;
   color: inherit;
+  box-sizing: border-box;
 }
 
 .nav {
@@ -186,14 +187,13 @@
 } */
 
 .art-info-img img {
-
   max-width: 50px;
 }
 
 @media (min-width: 768px) {
   .art-info-img img {
     padding-right: .88em;
-    max-width: 100px;
+    max-width: 15vw;
     padding-left: 8vw;
   }
 }
@@ -301,4 +301,49 @@ button:active {
   font-family: 'Cormorant Garamond', serif;
   text-align: center;
   padding: 1em 0 1em 0;
+}
+
+.sculpture-img img {
+  max-width: 94vw;
+}
+
+@media (min-width: 768px) {
+  .sculpture-img img {
+    max-width: 60vw;
+    max-height: 80vh;
+  }
+}
+
+@media (min-width: 768px) {
+  .sculpture-img {
+    align-items: flex-end;
+  }
+}
+
+.sculpture-div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between; 
+  width: 100vw;
+  padding: 0 3vw;
+}
+
+@media (min-width: 768px) {
+  .sculpture-div {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.sculpture-info {
+  max-width: 90vw;
+  line-height: 2em;
+  font-family: 'Raleway';
+}
+
+@media (min-width: 768px) {
+  .sculpture-info {
+    line-height: 1.3em;
+    font-size: 1.6em;
+  }
 }

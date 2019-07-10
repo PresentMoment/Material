@@ -4,6 +4,9 @@ const router  = express.Router();
 const ArtWork = require("../models/ArtWork");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const geo = require('mapbox-geocoding');
+geo.setAccessToken('pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwbHRtMGVrdWYwIn0.xzwCmqIxkr_AfZ3YNBwy9g');
+
 
 /* GET home page */
 router.get('/', (req, res, next) => {
@@ -13,19 +16,32 @@ router.get('/', (req, res, next) => {
   })
 });
 
-router.get("/artist/:id", (req, res) => {
-  let artId = req.params.id;
-  ArtWork.findOne({'_id': artId})
+router.get("/sculpture/:id", (req, res) => {
+  let artistId = req.params.id;
+  ArtWork.findOne({'_id': artistId})
+  // ArtWork.findById(req.params.id)
+  // ArtWork.find()
   .then(arts => {
-    res.render('index', { arts });
+    res.render('sculpture',{ arts });
+  // })
+  // .catch(error => {
+  //   console.log(error)
   })
-  .catch(error => {
-    console.log(error)
+});
+router.get("/artists/:artist", (req, res) => {
+  let artistId = req.params.artist;
+  ArtWork.find({'artist': artistId})
+  // ArtWork.findById(req.params.id)
+  // ArtWork.find()
+  .then(arts => {
+    res.render('artist',{ arts });
+  // })
+  // .catch(error => {
+  //   console.log(error)
   })
 });
 
 router.get("/search", (req, res) => {
-
   ArtWork.find({ artist: new RegExp(req.query.term, "i") })
   .then(artwork => {
     res.render('index',{arts: artwork });
@@ -56,29 +72,37 @@ router.get("/:artworkId", (req, res, next) => {
 });
 
 router.post("/artworks", uploadCloud.single('photo'), (req, res, next) => {
-  const { artist, title, year, latitude, longitude, needsRepair } = req.body;
+  const { artist, title, year, address, needsRepair } = req.body;
   const imgPath = req.file.url;
   const imgName = req.file.originalname;
-  const newArtWork = new ArtWork({ 
-    artist,
-    title,
-    year,
-    location: {
-      type: "Point",
-      coordinates: [latitude, longitude]
-    },
-    imgPath,
-    imgName,
-    postedBy: req.user._id,
-    needsRepair,
-  })
-  ArtWork.create(newArtWork)
+
+  geo.geocode('mapbox.places', address, function (err, geoData) {
+    // 
+    
+    console.log(geoData.features[0].geometry)
+
+    const newArtWork = new ArtWork({ 
+      artist,
+      title,
+      year,
+      address,
+      location: {
+        formType: "Point",
+        coordinates: geoData.features[0].geometry.coordinates,
+      },
+      imgPath,
+      imgName,
+      postedBy: req.user._id,
+      needsRepair,
+    })
+    ArtWork.create(newArtWork)
     .then(() => {
       res.redirect("/");
     })
     .catch(err => {
       next(err);
     });
+  });
 });
 
 
