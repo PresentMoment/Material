@@ -4,24 +4,34 @@
     <h5> <a href="/search?term={{arts.artist}}"> Artist: {{arts.artist}}</a>
     <br>Title: {{arts.title}}
     <br>Year: {{arts.year}}
-    <br>Posted By: {{arts.postedBy}}
+    <br>Address:</h5><h6> {{arts.geoAddress}} </h6>
+      {{#if arts.needsRepair}}
+      <h6>In Need of Repair</h6>
+      {{/if}}
+    <div class="info-spacer">
+    </div>
+    <form action="/auth/favorites/{{arts._id}}" method="POST" id="fav-form">
+    <button class="favorite-button">
+    Add to Favorites
+    </button>
+    </form>
+    {{!-- <p>Submitted By: {{arts.postedBy.username}}</p> --}}
     </div>
     <div class="sculpture-img">
       <img src={{arts.imgPath}} />
     </div>
     </div>
-<div style="width: 96vw; padding-left: 1em;" id='map' class="item-map"></div>
+<div style="width: 98vw; height: 58vh;" id='map' class='info-map'></div>
 <script>
 
-let arrCoordinates = ({{arts.location.coordinates}});
-let pinDrop = arrCoordinates.reverse();
+let arrCoordinates = [{{arts.location.coordinates}}]
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwbHRtMGVrdWYwIn0.xzwCmqIxkr_AfZ3YNBwy9g';
 var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/presentmoment/cjxwq65aa0nef1cpdnax0omoz',
-zoom: 6,
-fitBounds: (pinDrop)
+zoom: 15,
+center: arrCoordinates
 });
 var mapNav = new mapboxgl.NavigationControl();
 map.addControl(mapNav, 'bottom-right')
@@ -32,10 +42,8 @@ map.addControl(mapNav, 'bottom-right')
     trackUserLocation: true
 }))
 
-console.log({{arts.location.coordinates}});
 
 axios.get('http://localhost:3000/api/material').then(response => {
-  console.log(response.data)
   const artwork = response.data;
   artwork.forEach(artwork => {
     const coordinates = artwork.location.coordinates;

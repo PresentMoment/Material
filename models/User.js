@@ -3,7 +3,11 @@ const Schema   = mongoose.Schema;
 
 const userSchema = new Schema({
   username: String,
-  password: String
+  password: String,
+  favorites: [{
+    type: Schema.Types.ObjectId,
+    ref:"ArtWork"
+  }]
 }, {
   timestamps: {
     createdAt: 'created_at',

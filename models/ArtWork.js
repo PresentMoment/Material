@@ -30,6 +30,9 @@ const artWorkSchema = new Schema(
     type: String,
     required: true
   },
+  geoAddress: {
+    type: String,
+  },
   needsRepair: {
     type: Boolean,
     default: false,

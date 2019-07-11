@@ -12,9 +12,8 @@
 }
 
 #logo {
-  width: 6%;
-  height: 6%;
-  padding: 1% 0 2% 1%;
+  width: 9vw;
+  padding: 20% 0 2% 20%;
   justify-content: flex-start;
 }
 
@@ -57,7 +56,7 @@
   font-family: 'Cormorant Garamond', serif;
   display: flex;
   justify-content: center;
-  margin: 0 2vw 0 3vw;
+  margin: 0 2% 0 7%;
   width: auto;
   font-size: 2.5vw;
   text-decoration: none;
@@ -67,7 +66,7 @@
   font-family: 'Cormorant Garamond', serif;
   display: flex;
   justify-content: flex-end;
-  margin: 0 2vw 0 7vw;
+  margin: 0 2% 0 8%;
   width: auto;
   font-size: 2.5vw;
   text-decoration: none;
@@ -252,7 +251,7 @@ label {
   padding-left: 19%;
 }
 
-button {
+.add-btn .button-container-up .button-container-in button {
   display: inline-block;
   border: none;
   padding: 1rem 2rem;
@@ -287,12 +286,25 @@ button:active {
 
 .add-container {
   display: flex;
-  justify-content: center;
-  align-content: space-between;
   flex-wrap: wrap;
-  margin-top: 3%;
+  justify-content: center;
+  margin-top: 4em;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
+  width: 75%;
+  padding: 1em 0 1em 1em;
+  border: .2px solid rgb(220, 220, 220);
 }
-
+@media (min-width: 768px) {
+  .add-container {
+    width: 36%;
+  }
+}
+.add-container button {
+  width: 60%;
+  height: 3%;
+}
 .popup {
   width: 90px;
 }
@@ -309,7 +321,7 @@ button:active {
 
 @media (min-width: 768px) {
   .sculpture-img img {
-    max-width: 60vw;
+    max-width: 50vw;
     max-height: 80vh;
   }
 }
@@ -325,7 +337,7 @@ button:active {
   flex-direction: column-reverse;
   justify-content: space-between; 
   width: 100vw;
-  padding: 0 3vw;
+  padding: 1em 1.3vw 0 .8em;
 }
 
 @media (min-width: 768px) {
@@ -336,14 +348,41 @@ button:active {
 }
 
 .sculpture-info {
-  max-width: 90vw;
+  /* max-width: 90vw; */
   line-height: 2em;
   font-family: 'Raleway';
 }
-
 @media (min-width: 768px) {
   .sculpture-info {
     line-height: 1.3em;
     font-size: 1.6em;
   }
+}
+.sculpture-info p {
+  font-size: .3em;
+}
+
+.info-spacer {
+  height: 2%;
+}
+@media (min-width: 768px) {
+  .info-spacer {
+    height: 30%;
+  }
+}
+
+.error {
+  font-family: 'Cormorant Garamond', serif;
+  display: block;
+  text-align: center;
+  padding-top: 3%;
+}
+
+.marker {
+  background-image: url('/images/marker.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  cursor: pointer;
 }

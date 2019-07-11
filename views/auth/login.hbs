@@ -1,7 +1,3 @@
-<!DOCTYPE html>
-<html lang="eng">
-
-<body>
 <div class="inup-container">
 <div id="inup-header">
 <h2>Login</h2>
@@ -9,12 +5,12 @@
 <div class="inup-content">
 <form action="/auth/login" method="POST" id="form-container">
   <label for="username">Username:    </label>
-  <input id="username" type="text" name="username" placeholder="JonSnow">
+  <input id="username" type="text" name="username" placeholder="username">
 
   <br><br>
 
   <label for="password">Password:    </label>
-  <input id="password" type="password" name="password" placeholder="Your password">
+  <input id="password" type="password" name="password" placeholder="your password">
   <br>
   {{#if message }}
     <div class="error-message">{{ message }}</div>
@@ -33,5 +29,3 @@
 </div>
 </div>
 {{{ body }}}
-</body>
-</html>

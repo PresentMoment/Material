@@ -10,19 +10,29 @@ geo.setAccessToken('pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwb
 
 /* GET home page */
 router.get('/', (req, res, next) => {
-  ArtWork.find().then(arts=>{
-    res.render('index',{arts});
+  let title = req.params.title
+  ArtWork.find()
+  .sort ({ title: 1})
+  .limit(5)
+  .then(arts=>{
+    res.render('index',{arts,user:req.user});
 
   })
 });
 
+router.get('/error', (req, res) => {
+    res.render('error');
+  });
+
 router.get("/sculpture/:id", (req, res) => {
   let artistId = req.params.id;
   ArtWork.findOne({'_id': artistId})
+  .populate("postedBy")
   // ArtWork.findById(req.params.id)
   // ArtWork.find()
   .then(arts => {
-    res.render('sculpture',{ arts });
+    // console.log(arts)
+    res.render('sculpture',{ arts,user:req.user });
   // })
   // .catch(error => {
   //   console.log(error)
@@ -34,7 +44,7 @@ router.get("/artists/:artist", (req, res) => {
   // ArtWork.findById(req.params.id)
   // ArtWork.find()
   .then(arts => {
-    res.render('artist',{ arts });
+    res.render('artist',{arts,user:req.user});
   // })
   // .catch(error => {
   //   console.log(error)
@@ -42,7 +52,7 @@ router.get("/artists/:artist", (req, res) => {
 });
 
 router.get("/search", (req, res) => {
-  ArtWork.find({ artist: new RegExp(req.query.term, "i") })
+  ArtWork.find({ $or: [{ artist: new RegExp(req.query.term, "i")}, { geoAddress: new RegExp(req.query.term, "i") }] })
   .then(artwork => {
     res.render('index',{arts: artwork });
   })
@@ -52,8 +62,8 @@ router.get("/search", (req, res) => {
 router.get("/api/material", (req, res, next) => {
   ArtWork.find({})
     // .select("location.coordinates") // selects only certain fields
-    .sort({ name: 1 }) // sorts by name
-    .limit(10) // limits to the first 10 results
+    .sort({ title: 1 }) // sorts by name
+    .limit(5) // limits to the first 10 results
     .then(artworks => {
       res.json(artworks);
       // const coordinates = places.map(place => place.location.coordinates)
@@ -73,13 +83,14 @@ router.get("/:artworkId", (req, res, next) => {
 
 router.post("/artworks", uploadCloud.single('photo'), (req, res, next) => {
   const { artist, title, year, address, needsRepair } = req.body;
+  if (!req.file) {
+    res.redirect("/error");
+  } else {
+
   const imgPath = req.file.url;
   const imgName = req.file.originalname;
 
   geo.geocode('mapbox.places', address, function (err, geoData) {
-    // 
-    
-    console.log(geoData.features[0].geometry)
 
     const newArtWork = new ArtWork({ 
       artist,
@@ -90,19 +101,29 @@ router.post("/artworks", uploadCloud.single('photo'), (req, res, next) => {
         formType: "Point",
         coordinates: geoData.features[0].geometry.coordinates,
       },
+      geoAddress: geoData.features[0].place_name,
       imgPath,
       imgName,
       postedBy: req.user._id,
       needsRepair,
     })
-    ArtWork.create(newArtWork)
-    .then(() => {
+
+    ArtWork.findOne({ artist, address, title })
+    .then(artwork => {
+      if (artwork !== null) {
       res.redirect("/");
-    })
-    .catch(err => {
-      next(err);
-    });
-  });
+      } else {
+      ArtWork.create(newArtWork)
+      .then(() => {
+        res.redirect("/");
+      })
+      .catch(err => {
+        res.redirect('/error')
+      });
+    }
+  })
+});
+  }
 });
 
 

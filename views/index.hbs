@@ -5,7 +5,7 @@
   </span>
   <div class="index-spacer"></div>
   <div class ="content-box">
-  <div id='map'>
+  <div id='map' class="map">
   </div>
 
     <div class="listings-container">
@@ -34,13 +34,15 @@
 
 
 <script>
+let arrCoordinates = [{{arts.0.location.coordinates}}]
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwbHRtMGVrdWYwIn0.xzwCmqIxkr_AfZ3YNBwy9g';
 var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/presentmoment/cjxwq65aa0nef1cpdnax0omoz',
 zoom: 4,
-center: [8, 50]
+center: arrCoordinates
 });
+
 var mapNav = new mapboxgl.NavigationControl();
 map.addControl(mapNav, 'bottom-right')
 .addControl(new mapboxgl.GeolocateControl({
@@ -52,12 +54,10 @@ map.addControl(mapNav, 'bottom-right')
 
 
 axios.get('http://localhost:3000/api/material').then(response => {
-  console.log(response.data)
   const artwork = response.data;
   artwork.forEach(artwork => {
     const coordinates = artwork.location.coordinates;
     if (isNaN(coordinates[0])) {
-      console.log(artwork, coordinates)
       return;
     }
 
@@ -65,7 +65,10 @@ axios.get('http://localhost:3000/api/material').then(response => {
         .setHTML(`<div class="popup"><img height="50px" src="${artwork.imgPath}" alt=""><p>${artwork.title} by ${artwork.artist}</p></div>`)
         .setMaxWidth("none")
 
-    let marker = new mapboxgl.Marker().setLngLat(coordinates).setPopup(popup).addTo(map);
+    var el = document.createElement('div');
+    el.className = 'marker';
+
+    let marker = new mapboxgl.Marker(el).setLngLat(coordinates).setPopup(popup).addTo(map);
 
     })
   })

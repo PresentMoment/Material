@@ -2,6 +2,8 @@ const express = require("express");
 const passport = require('passport');
 const router = express.Router();
 const User = require("../models/User");
+const ArtWork = require("../models/ArtWork");
+
 
 // Bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
@@ -20,6 +22,29 @@ router.post("/add", passport.authenticate("local", {
 
 router.get("/login", (req, res, next) => {
   res.render("auth/login", { "message": req.flash("error") });
+});
+
+router.get('/favorites', (req, res, next) => {
+  User.findOne({ _id: req.user.id })
+  .populate( 'favorites' )
+  .then(user => {
+    console.log(user.favorites)
+    res.render('auth/favorites',{ arts: user.favorites });
+  })
+    });
+//   res.render('auth/favorites')
+// });
+
+router.post("/favorites/:id", (req, res) => {
+  ArtWork.findOne({_id:req.params.id}).then(artwork=>{
+
+    User.findByIdAndUpdate(req.user._id,
+    {$addToSet: {favorites: artwork._id}},{new:true}
+    )
+    .then((data) => {
+      res.redirect('/auth/favorites')
+    })
+  })
 });
 
 router.post("/login", passport.authenticate("local", {
@@ -69,5 +94,14 @@ router.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
+
+router.get("/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) console.log(err);
+    res.redirect("/");
+  });
+});
+
+
 
 module.exports = router;
