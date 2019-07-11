@@ -304,12 +304,14 @@ label {
   padding-top: 3%;
 }
 
-.marker {
+.marker-jr {
   background-image: url('/images/marker.png');
   background-size: cover;
   background-position: center;
-  width: 2rem;
-  height: 2rem;
+  border-color: #728397;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
   border-radius: 100%;
   cursor: pointer;
 }

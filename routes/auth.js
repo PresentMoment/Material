@@ -10,14 +10,18 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
 router.get("/add", (req, res, next) => {
+  if (!req.user) {
+    res.render("auth/failure")
+  } else {
   res.render("auth/add", { "message": req.flash("error"), user: req.user });
+  }
 });
 
 router.post("/add", passport.authenticate("local", {
   successRedirect: "/",
-  failureRedirect: "/auth/add",
   failureFlash: true,
-  passReqToCallback: true
+  passReqToCallback: true,
+  failureRedirect: "/auth/error",
 }));
 
 router.get("/login", (req, res, next) => {
@@ -81,8 +85,11 @@ router.post("/signup", (req, res, next) => {
     });
 
     newUser.save()
-    .then(() => {
-      res.redirect("/");
+    .then((user) => {
+      req.login(user, (err) => {
+
+        res.redirect("/");
+      })
     })
     .catch(err => {
       res.render("auth/signup", { message: "Something went wrong" });

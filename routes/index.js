@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
     ArtWork.countDocuments().then(count => {
       console.log(count / 5)
       console.log(page)
-      if ((count / 5) >= page) {
+      if ( page < (count / 5)) {
         res.render('index',{arts,user:req.user, nextPage : page + 1, prevPage : page - 1 });
       } else {
         res.render('index',{arts,user:req.user, prevPage : page - 1 })
