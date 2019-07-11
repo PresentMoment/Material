@@ -29,7 +29,7 @@ let arrCoordinates = [{{arts.location.coordinates}}]
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwbHRtMGVrdWYwIn0.xzwCmqIxkr_AfZ3YNBwy9g';
 var map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/presentmoment/cjxwq65aa0nef1cpdnax0omoz',
+style: 'mapbox://styles/presentmoment/cjxxhp4cy02tg1drpjgb31u5c',
 zoom: 15,
 center: arrCoordinates
 });
@@ -47,12 +47,18 @@ axios.get('http://localhost:3000/api/material').then(response => {
   const artwork = response.data;
   artwork.forEach(artwork => {
     const coordinates = artwork.location.coordinates;
+    if (isNaN(coordinates[0])) {
+      return;
+    }
 
     let popup = new mapboxgl.Popup({ offset: 0, className: 'my-class' })
         .setHTML(`<div class="popup"><img height="50px" src="${artwork.imgPath}" alt=""><p>${artwork.title} by ${artwork.artist}</p></div>`)
         .setMaxWidth("none")
 
-    let marker = new mapboxgl.Marker().setLngLat(coordinates).setPopup(popup).addTo(map);
+    var el = document.createElement('div');
+    el.className = 'marker';
+
+    let marker = new mapboxgl.Marker(el).setLngLat(coordinates).setPopup(popup).addTo(map);
 
     })
   })

@@ -10,7 +10,7 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
 router.get("/add", (req, res, next) => {
-  res.render("auth/add", { "message": req.flash("error") });
+  res.render("auth/add", { "message": req.flash("error"), user: req.user });
 });
 
 router.post("/add", passport.authenticate("local", {
@@ -21,7 +21,7 @@ router.post("/add", passport.authenticate("local", {
 }));
 
 router.get("/login", (req, res, next) => {
-  res.render("auth/login", { "message": req.flash("error") });
+  res.render("auth/login", { "message": req.flash("error"), user: req.user });
 });
 
 router.get('/favorites', (req, res, next) => {
@@ -29,7 +29,7 @@ router.get('/favorites', (req, res, next) => {
   .populate( 'favorites' )
   .then(user => {
     console.log(user.favorites)
-    res.render('auth/favorites',{ arts: user.favorites });
+    res.render('auth/favorites',{ arts: user.favorites, user: req.user });
   })
     });
 //   res.render('auth/favorites')
@@ -62,7 +62,7 @@ router.post("/signup", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
   if (username === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
+    res.render("auth/signup", { message: "Indicate username and password", user: req.user });
     return;
   }
 

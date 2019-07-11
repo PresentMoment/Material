@@ -10,15 +10,26 @@ geo.setAccessToken('pk.eyJ1IjoicHJlc2VudG1vbWVudCIsImEiOiJjanhpdGlhczkwNWdpM3dwb
 
 /* GET home page */
 router.get('/', (req, res, next) => {
-  let title = req.params.title
+  const page = Number(req.query.page) || 1
+  const itemsPerPage = 5
   ArtWork.find()
+  .collation({locale: "en" })
   .sort ({ title: 1})
-  .limit(5)
+  .skip((page - 1) * itemsPerPage)
+  .limit(itemsPerPage)
   .then(arts=>{
-    res.render('index',{arts,user:req.user});
-
+    ArtWork.countDocuments().then(count => {
+      console.log(count / 5)
+      console.log(page)
+      if ((count / 5) >= page) {
+        res.render('index',{arts,user:req.user, nextPage : page + 1, prevPage : page - 1 });
+      } else {
+        res.render('index',{arts,user:req.user, prevPage : page - 1 })
+      }
+    })
   })
 });
+
 
 router.get('/error', (req, res) => {
     res.render('error');
@@ -52,9 +63,9 @@ router.get("/artists/:artist", (req, res) => {
 });
 
 router.get("/search", (req, res) => {
-  ArtWork.find({ $or: [{ artist: new RegExp(req.query.term, "i")}, { geoAddress: new RegExp(req.query.term, "i") }] })
+  ArtWork.find({ $or: [{ artist: new RegExp(req.query.term, "i")},{ title: new RegExp(req.query.term, "i")}, { geoAddress: new RegExp(req.query.term, "i") }] })
   .then(artwork => {
-    res.render('index',{arts: artwork });
+    res.render('index',{arts: artwork, user: req.user });
   })
   
     });
@@ -71,15 +82,15 @@ router.get("/api/material", (req, res, next) => {
     });
 });
 
-router.get("/:artworkId", (req, res, next) => {
-  ArtWork.findById(req.params.artworkId)
-  .then(artwork => {
-    res.render("/", { artwork });
-  }) 
-  .catch(err => {
-    console.log("Error while retriving the artworks", err);
-  });
-});
+// router.get("/:artworkId", (req, res, next) => {
+//   ArtWork.findById(req.params.artworkId)
+//   .then(artwork => {
+//     res.render("/", { artwork });
+//   }) 
+//   .catch(err => {
+//     console.log("Error while retriving the artworks", err);
+//   });
+// });
 
 router.post("/artworks", uploadCloud.single('photo'), (req, res, next) => {
   const { artist, title, year, address, needsRepair } = req.body;

@@ -1,1 +1,18 @@
-Here are your favs
+
+    {{#each arts}}
+    <div class="sculpture-div">
+    <div class="sculpture-info">
+    <h5> <a href="/sculpture/{{_id}}"> Artist: {{artist}}
+    <br>Title: {{title}}
+    <br>Year: {{year}}
+    <br>Address:</h5><h6> {{geoAddress}} </h6></a>
+
+    <div class="info-spacer">
+    </div>
+    {{!-- <p>Submitted By: {{arts.postedBy.username}}</p> --}}
+    </div>
+    <div class="sculpture-img">
+      <a href="/sculpture/{{_id}}"><img src={{imgPath}} /></a>
+    </div>
+    </div>
+{{/each}}

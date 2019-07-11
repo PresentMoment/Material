@@ -6,7 +6,7 @@ const userSchema = new Schema({
   password: String,
   favorites: [{
     type: Schema.Types.ObjectId,
-    ref:"ArtWork"
+    ref:"Art Work"
   }]
 }, {
   timestamps: {
