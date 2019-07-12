@@ -308,9 +308,8 @@ label {
   background-image: url('/images/marker.png');
   background-size: cover;
   background-position: center;
-  border-color: #728397;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   border: 0;
   border-radius: 100%;
   cursor: pointer;
