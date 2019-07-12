@@ -58,7 +58,7 @@ map.addControl(mapNav, 'bottom-right')
     trackUserLocation: true
 }))
 
-axios.get('http://localhost:3000/api/material').then(response => {
+axios.get('https://materialism.herokuapp.com/api/material').then(response => {
   const artwork = response.data;
   artwork.forEach(artwork => {
     const coordinates = artwork.location.coordinates;

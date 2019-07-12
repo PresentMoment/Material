@@ -5,7 +5,7 @@ const User = require("../models/User");
 
 const bcryptSalt = 10;
 
-mongoose.connect("mongodb://localhost/material", {useNewUrlParser: true})
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
