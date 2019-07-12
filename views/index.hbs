@@ -67,7 +67,7 @@ axios.get('https://materialism.herokuapp.com/api/material').then(response => {
     }
 
     let popup = new mapboxgl.Popup({ offset: 0, className: 'my-class' })
-        .setHTML(`<a href="/sculpture/{{_id}}"><div class="popup" style="border: 3px solid black"><img height="50px" src="${artwork.imgPath}" alt=""><p>${artwork.title} by ${artwork.artist}</p></a></div>`)
+        .setHTML(`<a href="/sculpture/${{_id}}"><div class="popup" style="border: 3px solid black"><img height="50px" src="${artwork.imgPath}" alt=""><p>${artwork.title} by ${artwork.artist}</p></a></div>`)
         .setMaxWidth("none")
 
 
