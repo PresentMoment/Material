@@ -15,7 +15,7 @@ const flash      = require("connect-flash");
 // const NodeGeocoder = require('node-geocoder');
 
 mongoose
-  .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost/material', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
